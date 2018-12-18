@@ -1,0 +1,29 @@
+{
+  "name": "CSO",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "react": "16.4.1",
+    "react-native": "0.56.1",
+    "react-native-camera": "^1.6.3",
+    "react-native-image-picker": "^0.26.10",
+    "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-tesseract-ocr": "^1.0.10",
+    "react-native-view-shot": "^2.5.0",
+    "rn-fetch-blob": "^0.10.14"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "babel-preset-react-native": "5.0.2",
+    "jest": "23.6.0",
+    "react-test-renderer": "16.4.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
