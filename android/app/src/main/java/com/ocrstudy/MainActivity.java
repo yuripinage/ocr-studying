@@ -1,4 +1,4 @@
-package com.cso;
+package com.ocrstudy;
 
 import com.facebook.react.ReactActivity;
 import com.reactlibrary.RNTesseractOcrPackage;
@@ -11,6 +11,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "CSO";
+        return "OCRStudy";
     }
 }

@@ -1,4 +1,4 @@
-package com.cso;
+package com.ocrstudy;
 
 import android.app.Application;
 
