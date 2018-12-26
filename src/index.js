@@ -5,6 +5,7 @@ import TestOCR from './TestOCR'
 
 export default class App extends Component {
     render() {
+        console.disableYellowBox = true
         return (
             <View style={styles.container}>
                 <TestOCR />

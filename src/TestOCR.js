@@ -36,24 +36,14 @@ export default class TestOCR extends Component {
 
                 {this.renderCamera()}
 
+                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                    <TouchableOpacity onPress={() => this.takeScreenShot('preview', 'base64')} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}>FOTO</Text>
+                    </TouchableOpacity>
+                </View>
                 {this.state.imageData && this.renderImage()}
 
                 <Spinner visible={this.state.loading} color='#80DEEA' overlayColor='#00000075' />
-            </View>
-        )
-    }
-
-    renderImage = () => {
-        return(
-            <View style={{ padding: 20, backgroundColor: 'transparent' }} ref='result' >
-                <Image 
-                    source={{uri: `data:image/jpeg;base64,${this.state.imageData}`}} style={{ width: 300, height: 300 }}
-                    resizeMode="contain"  
-                    />
-                <View style={{
-                    width: 50, height: 50, backgroundColor: '#26C6DA50', position:'absolute',
-                    top: 150, left: 150
-                }}/>
             </View>
         )
     }
@@ -67,37 +57,50 @@ export default class TestOCR extends Component {
                     flashMode={RNCamera.Constants.FlashMode.off}
                     permissionDialogTitle={'Permission to use camera'}
                     permissionDialogMessage={'We need your permission to use your camera phone'}
-                    >
-                        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                            <TouchableOpacity onPress={() => this.takeScreenShot('preview')} style={styles.capture}>
-                                <Text style={{ fontSize: 14 }}> SHOT </Text>
-                            </TouchableOpacity>
-                            {/* <TouchableOpacity onPress={() => this.setState({imageData: ''})} style={styles.capture}>
-                                <Text style={{ fontSize: 14 }}> CLEAR </Text>
-                            </TouchableOpacity> */}
-                        </View>
-                </RNCamera>
+                    />
+                <View style={{ width: 350, height: 20, top: 10, left: 70, backgroundColor: 'transparent', borderColor: 'greenyellow', borderWidth: 2, borderRadius: 5, borderStyle: 'dashed', position:'absolute' }}/>
+                <View style={{ width: 240, height: 20, top: 215, left: 70, backgroundColor: 'transparent', borderColor: 'greenyellow', borderWidth: 2, borderRadius: 5, borderStyle: 'dashed', position:'absolute' }}/>
             </View>
         )
     }
 
-    takeScreenShot = ref => {
+    renderImage = () => {
+        return(
+            <View>
+                <View style={{ backgroundColor: 'transparent' }} ref='result' >
+                    <Image 
+                        source={{uri: `data:image/jpeg;base64,${this.state.imageData}`}} style={{ width: 500, height: 250 }}
+                        resizeMode="contain"  
+                        />
+                    <View style={{ width: 300, height: 112, backgroundColor: 'black', position:'absolute', top: 92, right: 0 }}/>
+                    <View style={{ width: 200, height: 35, backgroundColor: 'black', position:'absolute', top: 205, right: 0 }}/>
+                </View>
 
-        // if(this.state.imageData)
-        //     ref === 'result'
+                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                    <TouchableOpacity onPress={() => this.takeScreenShot('result', 'tmpfile')} style={styles.capture}>
+                        <Text style={{ fontSize: 14 }}>ENVIAR</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
+    takeScreenShot = (ref, type) => {
 
         captureRef(this.refs[ref], {
             format: "jpg",
-            quality: 1,
-            result: 'tmpfile'
+            quality: 1.0,
+            result: type
         })
         .then(
             result => {
-                console.log("Image saved to", result)
-                this.handleOCR(result)
-                this.setState({ imageData: result })
-                // if(ref === 'preview')
-                //     setTimeout(() => this.takeScreenShot('result'), 300)
+                
+                if(type === 'tmpfile') {
+                    this.handleOCR(result)
+                    setTimeout(() => this.takeScreenShot('result'), 300)
+                }
+                else
+                    this.setState({ imageData: result })
             },
             error => console.error("Oops, snapshot failed", error)
         );
@@ -115,7 +118,7 @@ export default class TestOCR extends Component {
         })
         formData.append('budget_id', 1)
 
-        console.log(formData)
+        console.log('formData', formData)
 
         this.setState({ loading: true })
 
@@ -132,6 +135,7 @@ export default class TestOCR extends Component {
             },
 			(error) => {
                 console.log(error.response)
+                this.setState({ loading: false })
 			}
 		)
 
@@ -165,8 +169,8 @@ const styles = StyleSheet.create({
     containerCamera: {
         // width: 290,
         // height: 193.3,
-        width: 580,
-        height: 390,
+        width: 500,
+        height: 250,
         flexDirection: 'column',
         backgroundColor: 'black',
         // height: 300
@@ -178,11 +182,11 @@ const styles = StyleSheet.create({
       },
       capture: {
         flex: 0,
-        backgroundColor: '#fff',
-        borderRadius: 5,
+        backgroundColor: '#4286ff',
         padding: 15,
-        paddingHorizontal: 20,
+        width: '100%',
         alignSelf: 'center',
-        margin: 20
+        alignItems: 'center',
+        marginVertical: 10
       }
 });
